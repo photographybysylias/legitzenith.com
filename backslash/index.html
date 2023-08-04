@@ -95,6 +95,15 @@
                         <p>
                             <script type="text/javascript" src="https://www.gstatic.com/swiffy/v8.0/runtime.js"></script>
                             <script>
+var elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+
                                 swiffyobject = {
                                     "as3": true,
                                     "frameRate": 60,
