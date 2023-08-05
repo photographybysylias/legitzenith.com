@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slash's Corner</title>
+    <style>
+	body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #3A1C5D, #10152D); /* Dark blue/dark purple gradient background */
+    background-size: cover;
+    position: relative;
+}
+
+.slash-corner {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-family: "Courier New", monospace;
+    font-size: 24px;
+}
+
+.header {
+    text-align: center;
+    color: white;
+    font-family: "Courier New", monospace;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header .terminal-font {
+    font-size: 48px;
+}
+
+.header p {
+    margin: 10px 0;
+}
+
+.footer {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.8);
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    text-align: center;
+}
+
+.footer::before {
+    content: "Notice: ";
+    color: white;
+}
+
+.footer a {
+    color: white;
+}
+
+.footer a:hover {
+    color: #ccc;
+}
+
+/* Movable Window Styles */
+.window {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 400px;
+    background-color: #1c0e25; /* Very dark purple */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.title-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: #170c1d; /* Darker purple for the title bar */
+    color: white;
+    font-family: "Courier New", monospace;
+    user-select: none; /* Prevent text selection on title bar */
+    cursor: move; /* Show move cursor on title bar */
+}
+
+.content {
+    padding: 20px;
+    color: white;
+    font-family: "Courier New", monospace;
+}
+
+/* Terminal-looking font for <p> elements inside the content */
+.content p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ... Other styles ... */
+
+/* ... Other styles ... */
+
+
+/* Custom styling for the audio player */
+audio {
+    width: 100%;
+    border-radius: 4px;
+    outline: none;
+}
+
+
+	</style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="slash-corner">Slash's Corner</div>
+        <div class="header">
+            <div class="terminal-font">welcome</div>
+            <p>silly website with silly stuff</p>
+        </div>
+
+        <!-- Movable Window -->
+        <div class="window">
+            <div class="title-bar">audio_player.exe</div>
+            <div class="content">
+                <audio controls>
+                    <source src="https://cdn.backslashg.com/r/ILovePoland-Parody.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p class="terminal-font">I Love Poland -<br>Austrian Painter Parody</p>
+            </div>
+        </div>
+        <!-- End of Movable Window -->
+
+        <div class="footer">
+            sy (legitzenith) does not support the possible illegal things happening on this page, all daddy slash
+			Created by <a href="https://chat.openai.com/">ChatGPT</a> & <a href="https://www.backslashg.com/">Slash</a>
+        </div>
+    </div>
+      <script>
+	// Movable Window - Drag and Drop Functionality
+const windowElement = document.querySelector(".window");
+let isDragging = false;
+let offsetX, offsetY;
+
+windowElement.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  offsetX = e.clientX - windowElement.getBoundingClientRect().left;
+  offsetY = e.clientY - windowElement.getBoundingClientRect().top;
+});
+
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (isDragging) {
+    windowElement.style.left = `${e.clientX - offsetX}px`;
+    windowElement.style.top = `${e.clientY - offsetY}px`;
+  }
+});
+
+	</script>
+</body>
+
+</html>
