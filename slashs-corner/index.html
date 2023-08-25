@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta content="slash's corner" property="og:title" />
-    <meta content="what do i put here" property="og:description" />
-    <meta content="https://legitzenith.com/slashs-corner/" property="og:url" />
-    <meta content="https://cdn.backslashg.com/r/Untitled_(1).png" property="og:image" />
-   <meta name="twitter:card" content="summary_large_image">
-    <meta content="#00559C" data-react-helmet="true" name="theme-color" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slash's Corner</title>
-    <style>
+<meta content="slash's corner" property="og:title" />
+<meta content="what do i put here" property="og:description" />
+<meta content="https://legitzenith.com/slashs-corner/" property="og:url" />
+<meta content="https://cdn.backslashg.com/r/Untitled_(1).png" property="og:image" />
+<meta name="twitter:card" content="summary_large_image">
+<meta content="#00559C" data-react-helmet="true" name="theme-color" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slash's Corner</title>
+<script src="/cdn-cgi/apps/head/go686nkNOU0g8wy6kPGRg6PrNOA.js"></script><style>
 	body {
     margin: 0;
     padding: 0;
@@ -132,57 +131,141 @@ audio {
 
 	</style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="slash-corner">Slash's Corner</div>
-        <div class="header">
-            <div class="terminal-font">welcome</div>
-            <p>silly website with silly stuff<br>coming soon...</p>
-        </div>
+<div class="container">
+<div class="slash-corner">Slash's Corner <br>Development Version</div>
+<div class="header">
+<div class="terminal-font">welcome</div>
+<p>silly website with silly stuff<br>coming soon...</p>
+</div>
 
-        <!-- Movable Window -->
-        <div class="window">
-            <div class="title-bar">audio_player.exe</div>
-            <div class="content">
-                <audio controls>
-                    <source src="https://cdn.backslashg.com/r/ILovePoland-Parody.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                <p class="terminal-font">I Love Poland -<br>Austrian Painter Parody</p>
-            </div>
-        </div>
-        <!-- End of Movable Window -->
-
-        <div class="footer">
-            sy (legitzenith) does not support the possible illegal things happening on this page, all daddy slash
-			Created by <a href="https://chat.openai.com/">ChatGPT</a> & <a href="https://www.backslashg.com/">Slash</a>
-        </div>
+<div class="window">
+<div class="title-bar">audio_player.exe</div>
+<div class="content">
+<audio controls>
+<source src="https://cdn.backslashg.com/r/ILovePoland-Parody.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+<p class="terminal-font">I Love Poland -<br>Austrian Painter Parody</p>
+</div>
+</div>
+     <div class="window" id="checker-window">
+    <div class="title-bar">discord_nitro_checker.exe</div>
+    <div class="content">
+      <textarea id="input" placeholder="Enter gift codes (one per line)"></textarea>
+      <button id="checkButton">Check Codes</button>
+      <div id="loading">Note: idk if this works but we'll ig</div>
+      <div id="results"></div>
     </div>
-      <script>
-	// Movable Window - Drag and Drop Functionality
-const windowElement = document.querySelector(".window");
-let isDragging = false;
-let offsetX, offsetY;
+  </div>
 
-windowElement.addEventListener("mousedown", (e) => {
-  isDragging = true;
-  offsetX = e.clientX - windowElement.getBoundingClientRect().left;
-  offsetY = e.clientY - windowElement.getBoundingClientRect().top;
-});
+<div class="footer">
+sy (legitzenith) does not support the possible illegal things happening on this page, all daddy slash
+Created by <a href="https://chat.openai.com/">ChatGPT</a> & <a href="https://www.backslashg.com/">Slash</a>
+</div>
+</div>
+<script>
+	  // Movable Window - Drag and Drop Functionality
+  const movableWindows = document.querySelectorAll('.window:not(#checker-window)');
+  
+  movableWindows.forEach(windowElement => {
+    let isDragging = false;
+    let offsetX, offsetY;
+  
+    windowElement.querySelector('.title-bar').addEventListener("mousedown", (e) => {
+      isDragging = true;
+      offsetX = e.clientX - windowElement.getBoundingClientRect().left;
+      offsetY = e.clientY - windowElement.getBoundingClientRect().top;
+    });
+  
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
+  
+    document.addEventListener("mousemove", (e) => {
+      if (isDragging) {
+        windowElement.style.left = `${e.clientX - offsetX}px`;
+        windowElement.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
+  });
+ const loadingDiv = document.getElementById('loading');
+    const resultsDiv = document.getElementById('results');
+    const checkerWindow = document.getElementById('checker-window');
+    
+    document.getElementById('checkButton').addEventListener('click', async () => {
+      const input = document.getElementById('input');
+      resultsDiv.innerHTML = '';
+      
+      const rawGiftCodes = input.value.trim().split('\n').map(code => code.trim());
+      const giftCodes = rawGiftCodes.map(removeUrlPrefix).filter(isValidGiftCode);
+      
+      loadingDiv.style.display = 'block';
+      await checkCodes(giftCodes);
+      loadingDiv.style.display = 'none';
+    });
+    
+    function removeUrlPrefix(input) {
+      const urlPattern = /^https:\/\/discord\.gift\//i;
+      return input.replace(urlPattern, '');
+    }
+    
+    function isValidGiftCode(code) {
+      if (code.length !== 16 || /[^a-zA-Z0-9]/.test(code)) {
+        const errorMessage = code.length !== 16 ? 'Not 16 characters long' : 'Contains special characters';
+        const resultDiv = document.createElement('div');
+        resultDiv.textContent = `${code}: Invalid`;
+        resultDiv.classList.add('result', 'invalid');
+        resultsDiv.appendChild(resultDiv);
+        console.error(`Error: Code invalid (${errorMessage})`);
+        return false;
+      }
+      return true;
+    }
+  async function checkCodes(giftCodes) {
+  for (const code of giftCodes) {
+    const resultDiv = document.createElement('div');
+    resultDiv.classList.add('result');
 
-document.addEventListener("mouseup", () => {
-  isDragging = false;
-});
+    try {
+      const response = await fetch(`https://discord.com/api/v8/entitlements/gift-codes/${code}`, {
+        method: 'GET',
+      });
 
-document.addEventListener("mousemove", (e) => {
-  if (isDragging) {
-    windowElement.style.left = `${e.clientX - offsetX}px`;
-    windowElement.style.top = `${e.clientY - offsetY}px`;
+      if (response.status === 200) {
+        resultDiv.textContent = `${code}: Valid`;
+        resultDiv.classList.add('valid');
+      } else if (response.status === 404) {
+        resultDiv.textContent = `${code}: Invalid`;
+        resultDiv.classList.add('invalid');
+      } else {
+        resultDiv.textContent = `${code}: Error!`;
+        const tryAgainButton = document.createElement('button');
+        tryAgainButton.textContent = 'Try Again';
+        tryAgainButton.addEventListener('click', async () => {
+          loadingDiv.style.display = 'block';
+          await checkCodes([code]);
+          loadingDiv.style.display = 'none';
+        });
+        resultDiv.appendChild(tryAgainButton);
+      }
+    } catch (error) {
+      resultDiv.textContent = `${code}: Error!`;
+      const tryAgainButton = document.createElement('button');
+      tryAgainButton.textContent = 'Try Again';
+      tryAgainButton.addEventListener('click', async () => {
+        loadingDiv.style.display = 'block';
+        await checkCodes([code]);
+        loadingDiv.style.display = 'none';
+      });
+      resultDiv.appendChild(tryAgainButton);
+    }
+
+    resultsDiv.appendChild(resultDiv);
+
+    await new Promise(resolve => setTimeout(resolve, 1500));
   }
-});
-
+}
 	</script>
 </body>
-
 </html>
